@@ -14,7 +14,8 @@ import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 
 import java.io.PrintWriter;
 import java.util.List;
-import nl.uva.sne.vre4eic.cue.model.Person;
+import nl.uva.sne.vre4eic.cue.model.Argo;
+import static nl.uva.sne.vre4eic.cue.util.Consts.COLUMS;
 
 /**
  *
@@ -22,36 +23,37 @@ import nl.uva.sne.vre4eic.cue.model.Person;
  */
 public class WriteCsvToResponse {
 
-    public static void writePersons(PrintWriter writer, List<Person> cities) throws CsvDataTypeMismatchException, CsvRequiredFieldEmptyException {
+    public static void writeArgo(PrintWriter writer, List<Argo> persons) throws CsvDataTypeMismatchException, CsvRequiredFieldEmptyException {
 
         ColumnPositionMappingStrategy mapStrategy
                 = new ColumnPositionMappingStrategy();
 
-        mapStrategy.setType(Object.class);
+        mapStrategy.setType(Argo.class);
         mapStrategy.generateHeader();
 
-        String[] columns = new String[]{"id", "name", "population"};
-        mapStrategy.setColumnMapping(columns);
+        mapStrategy.setColumnMapping(COLUMS);
 
         StatefulBeanToCsv btcsv = new StatefulBeanToCsvBuilder(writer)
                 .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER)
                 .withMappingStrategy(mapStrategy)
                 .withSeparator(',')
                 .build();
-
-        btcsv.write(cities);
+        String[] header = mapStrategy.generateHeader();
+        if (header.length > 0) {
+            btcsv.write(header);
+        }
+        btcsv.write(persons);
 
     }
 
-    public static void writePerson(PrintWriter writer, Object city) throws CsvDataTypeMismatchException, CsvRequiredFieldEmptyException {
+    public static void writePerson(PrintWriter writer, Argo person) throws CsvDataTypeMismatchException, CsvRequiredFieldEmptyException {
 
         ColumnPositionMappingStrategy mapStrategy
                 = new ColumnPositionMappingStrategy();
 
-        mapStrategy.setType(Object.class);
+        mapStrategy.setType(Argo.class);
 
-        String[] columns = new String[]{"id", "name", "population"};
-        mapStrategy.setColumnMapping(columns);
+        mapStrategy.setColumnMapping(COLUMS);
 
         StatefulBeanToCsv btcsv = new StatefulBeanToCsvBuilder(writer)
                 .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER)
@@ -59,7 +61,7 @@ public class WriteCsvToResponse {
                 .withSeparator(',')
                 .build();
 
-        btcsv.write(city);
+        btcsv.write(person);
 
     }
 }

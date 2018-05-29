@@ -8,7 +8,6 @@ package nl.uva.sne.vre4eic.cue.conf;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
-import static javax.servlet.SessionTrackingMode.URL;
 import javax.sql.DataSource;
 
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -28,7 +27,7 @@ public class SQLiteConfig {
         dataSourceBuilder.driverClassName("org.sqlite.JDBC");
         URL resource = SQLiteConfig.class
                 .getClassLoader().getResource("sql/mydb.db");
-        System.err.println(resource);
+        
         dataSourceBuilder.url(String.format("jdbc:sqlite:%s", new File(resource.toURI()).getAbsolutePath()));
         return dataSourceBuilder.build();
     }
