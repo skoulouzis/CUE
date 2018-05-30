@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 /**
  *
@@ -52,5 +53,9 @@ public class FilesUtils {
     private static String getContentType(File file) throws IOException {
         Path target = Paths.get(file.getAbsolutePath());
         return Files.probeContentType(target);
+    }
+
+    public static List<File> unzip(File file) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

@@ -33,7 +33,7 @@ public class CsvUtils {
         mapStrategy.generateHeader();
 
         mapStrategy.setColumnMapping(COLUMS);
-
+        
         StatefulBeanToCsv btcsv = new StatefulBeanToCsvBuilder(writer)
                 .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER)
                 .withMappingStrategy(mapStrategy)

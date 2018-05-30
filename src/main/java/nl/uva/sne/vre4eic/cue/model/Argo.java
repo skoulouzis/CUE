@@ -61,6 +61,7 @@ public class Argo implements Serializable {
     /**
      * @return the station_date
      */
+    @DateTimeFormat(pattern = DATE_FORMAT)
     public Date getStation_date() {
         return station_date;
     }

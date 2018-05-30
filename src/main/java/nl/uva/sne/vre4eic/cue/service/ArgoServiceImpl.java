@@ -44,11 +44,19 @@ public class ArgoServiceImpl implements ArgoService {
     @Override
     public void insertCSVFile(MultipartFile multipart) {
         try {
-            File csvFile = new File(multipart.getOriginalFilename());
-            multipart.transferTo(csvFile);
-            FilesUtils.isZipFile(csvFile);
-            FilesUtils.isCSVFile(csvFile);
-            argoDao.insertCSVFile(csvFile);
+            File file = new File(multipart.getOriginalFilename());
+            multipart.transferTo(file);
+
+            if (FilesUtils.isCSVFile(file)) {
+                argoDao.insertCSVFile(file);
+            } else if (FilesUtils.isZipFile(file)) {
+                List<File> csvFiles = FilesUtils.unzip(file);
+                for (File f : csvFiles) {
+                    if (FilesUtils.isCSVFile(f)) {
+                        argoDao.insertCSVFile(file);
+                    }
+                }
+            }
         } catch (IOException | IllegalStateException ex) {
             Logger.getLogger(ArgoServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
