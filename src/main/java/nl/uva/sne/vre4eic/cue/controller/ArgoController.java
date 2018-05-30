@@ -17,7 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletResponse;
 import nl.uva.sne.vre4eic.cue.model.Argo;
-import nl.uva.sne.vre4eic.cue.util.WriteCsvToResponse;
+import nl.uva.sne.vre4eic.cue.util.CsvUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,18 +25,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import nl.uva.sne.vre4eic.cue.service.ArgoService;
 import static nl.uva.sne.vre4eic.cue.util.Consts.DATE_FORMAT;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
  * @author S. Koulouzis
  */
 @RestController
+@RequestMapping("/argo/")
 public class ArgoController {
 
     @Autowired
     private ArgoService service;
 
-    @RequestMapping(value = "/argo", produces = "text/csv", method = RequestMethod.GET)
+    @RequestMapping(value = "/get", produces = "text/csv", method = RequestMethod.GET)
     public void getArgoData(@RequestParam(required = false) Map<String, String> requestParams,
             HttpServletResponse response) {
         try {
@@ -72,9 +75,21 @@ public class ArgoController {
                 argo = service.getAllArgo();
             }
 
-            WriteCsvToResponse.writeArgo(response.getWriter(), argo);
+            CsvUtils.writeArgoToWriter(response.getWriter(), argo);
         } catch (IOException | CsvDataTypeMismatchException | CsvRequiredFieldEmptyException | ParseException ex) {
             Logger.getLogger(ArgoController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    
+//    curl -v -X POST -F "file=@ar_bigdata_199901.csv" localhost:8084/cue/argo/upload
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    public @ResponseBody
+    String upload(@RequestParam("file") MultipartFile file) {
+        if (!file.isEmpty()) {
+            service.insertCSVFile(file);
+        }
+        return null;
+    }
+
 }

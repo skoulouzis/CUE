@@ -17,6 +17,7 @@ public class Consts {
         "station_date", "latitude", "longitude", "measure_type", "parameter_code",
         "parameter_value", "parameter_qc", "z_code", "z_value", "z_qc", "z_level"};
 
-    public static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS";
+    public static final String DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
+    public static final String CSV_SPLIT = ",";
 
 }

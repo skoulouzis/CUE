@@ -1,10 +1,19 @@
 package nl.uva.sne.vre4eic.cue.dao;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -13,10 +22,14 @@ import javax.sql.DataSource;
 import nl.uva.sne.vre4eic.cue.model.Argo;
 import nl.uva.sne.vre4eic.cue.util.Consts;
 import nl.uva.sne.vre4eic.cue.util.ArgoFactory;
+import static nl.uva.sne.vre4eic.cue.util.Consts.CSV_SPLIT;
+import static nl.uva.sne.vre4eic.cue.util.Consts.DATE_FORMAT;
+import static nl.uva.sne.vre4eic.cue.util.Consts.TABLE_NAME;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 @Repository
 @Transactional
@@ -114,6 +127,63 @@ public class ArgoDaoImpl implements ArgoDAO {
             Logger.getLogger(ArgoDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+
+    @Override
+    public void insertCSVFile(File csvFile) {
+        try (Connection conn = dataSource.getConnection()) {
+            BufferedReader br = new BufferedReader(new FileReader(csvFile));
+            String line;
+            Statement statment = conn.createStatement();
+            int lineNum = 0;
+            while ((line = br.readLine()) != null) {
+                if (lineNum > 0) {
+                    String[] argo = line.split(CSV_SPLIT);
+                    SimpleDateFormat datetimeFormatter = new SimpleDateFormat(DATE_FORMAT);
+                    java.util.Date date = datetimeFormatter.parse(argo[2]);
+                    statment.addBatch(
+                            "INSERT INTO  " + Consts.TABLE_NAME
+                            + " ("
+                            + "station_id,"
+                            + "platform_code,"
+                            + "station_date,"
+                            + "latitude,"
+                            + "longitude,"
+                            + "measure_type,"
+                            + "parameter_code,"
+                            + "parameter_value,"
+                            + "parameter_qc,"
+                            + "z_code,"
+                            + "z_value,"
+                            + "z_qc,"
+                            + "z_level"
+                            + ") "
+                            + "VALUES "
+                            + "('"
+                            + argo[0] + "','"
+                            + argo[1] + "','"
+                            + new Timestamp(date.getTime()) + "','"
+                            + argo[2] + "','"
+                            + argo[3] + "','"
+                            + argo[4] + "','"
+                            + argo[5] + "','"
+                            + argo[6] + "','"
+                            + argo[7] + "','"
+                            + argo[8] + "','"
+                            + argo[9] + "','"
+                            + argo[10] + "','"
+                            + argo[11] + "')");
+                }
+                lineNum++;
+
+            }
+
+            statment.executeBatch();
+        } catch (SQLException | IOException | ParseException ex) {
+            Logger.getLogger(ArgoDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            csvFile.delete();
+        }
     }
 
 }

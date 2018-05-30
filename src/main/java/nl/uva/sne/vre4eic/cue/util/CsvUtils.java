@@ -13,6 +13,7 @@ import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 
 import java.io.PrintWriter;
+import java.io.Reader;
 import java.util.List;
 import nl.uva.sne.vre4eic.cue.model.Argo;
 import static nl.uva.sne.vre4eic.cue.util.Consts.COLUMS;
@@ -21,9 +22,9 @@ import static nl.uva.sne.vre4eic.cue.util.Consts.COLUMS;
  *
  * @author S. Koulouzis
  */
-public class WriteCsvToResponse {
+public class CsvUtils {
 
-    public static void writeArgo(PrintWriter writer, List<Argo> persons) throws CsvDataTypeMismatchException, CsvRequiredFieldEmptyException {
+    public static void writeArgoToWriter(PrintWriter writer, List<Argo> argo) throws CsvDataTypeMismatchException, CsvRequiredFieldEmptyException {
 
         ColumnPositionMappingStrategy mapStrategy
                 = new ColumnPositionMappingStrategy();
@@ -42,26 +43,14 @@ public class WriteCsvToResponse {
         if (header.length > 0) {
             btcsv.write(header);
         }
-        btcsv.write(persons);
+        btcsv.write(argo);
 
     }
 
-    public static void writePerson(PrintWriter writer, Argo person) throws CsvDataTypeMismatchException, CsvRequiredFieldEmptyException {
-
-        ColumnPositionMappingStrategy mapStrategy
-                = new ColumnPositionMappingStrategy();
-
-        mapStrategy.setType(Argo.class);
-
-        mapStrategy.setColumnMapping(COLUMS);
-
-        StatefulBeanToCsv btcsv = new StatefulBeanToCsvBuilder(writer)
-                .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER)
-                .withMappingStrategy(mapStrategy)
-                .withSeparator(',')
-                .build();
-
-        btcsv.write(person);
-
+    public static void readArgo(Reader reader, List<Argo> argo) throws CsvDataTypeMismatchException, CsvRequiredFieldEmptyException {
+//        CsvToBean<Argo> csvToBean = new CsvToBeanBuilder(reader)
+//                .withType(Argo.class)
+//                .withIgnoreLeadingWhiteSpace(true)
+//                .build();
     }
 }
