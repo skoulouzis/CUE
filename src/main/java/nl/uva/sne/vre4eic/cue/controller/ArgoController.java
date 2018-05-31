@@ -33,7 +33,7 @@ import org.springframework.web.multipart.MultipartFile;
  * @author S. Koulouzis
  */
 @RestController
-@RequestMapping("/argo/")
+@RequestMapping("/rest/argo/")
 public class ArgoController {
 
     @Autowired

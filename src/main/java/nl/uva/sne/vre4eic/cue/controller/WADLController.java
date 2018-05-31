@@ -56,7 +56,7 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
  * @author S. Koulouzis
  */
 @Controller
-@RequestMapping("/wadl")
+@RequestMapping("/rest")
 public class WADLController {
 
     String xs_namespace = "http://www.w3.org/2001/XMLSchema";
