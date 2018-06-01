@@ -19,4 +19,10 @@ WORKDIR /root
 RUN wget https://github.com/QCAPI-DRIP/DRIP-integradation/releases/download/0.1/apache-tomcat-7.0.75.tar.gz
 RUN tar -xzf apache-tomcat-7.0.75.tar.gz
 
+WORKDIR apache-tomcat-7.0.75
+RUN wget https://github.com/skoulouzis/CUE/releases/download/0/CUE-1.0-SNAPSHOT.tar.gz
+RUN tar -xzvf CUE-1.0-SNAPSHOT.tar.gz
+RUN mv CUE-1.0-SNAPSHOT webapps/cue
 
+ENTRYPOINT /root/apache-tomcat-7.0.75/bin/startup.sh && \
+tail -f /root/apache-tomcat-7.0.75/logs/catalina.out
