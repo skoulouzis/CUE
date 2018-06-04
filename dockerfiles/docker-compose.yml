@@ -1,0 +1,9 @@
+version: '3.1'
+
+services:
+  cue:
+    image: alogo53/cue-docker
+    container_name: cue
+    restart: always
+    ports:
+      - 8081:8080
