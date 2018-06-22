@@ -33,10 +33,10 @@ public class CsvUtils {
         mapStrategy.generateHeader();
 
         mapStrategy.setColumnMapping(COLUMS);
-        
+//        writer.append("header1, header2, header3, ...etc \n");
         StatefulBeanToCsv btcsv = new StatefulBeanToCsvBuilder(writer)
                 .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER)
-                .withMappingStrategy(mapStrategy)
+//                .withMappingStrategy(mapStrategy)
                 .withSeparator(',')
                 .build();
         String[] header = mapStrategy.generateHeader();

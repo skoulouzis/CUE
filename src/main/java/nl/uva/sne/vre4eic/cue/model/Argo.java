@@ -1,5 +1,6 @@
 package nl.uva.sne.vre4eic.cue.model;
 
+import com.opencsv.bean.CsvBindByName;
 import java.io.Serializable;
 import java.sql.Date;
 import javax.persistence.Column;
@@ -205,43 +206,56 @@ public class Argo implements Serializable {
     private Integer id;
 
     @Column(name = "station_id")
+    @CsvBindByName(column = "station_id")
     private Integer station_id;
 
     @Column(name = "platform_code")
+    @CsvBindByName(column = "platform_code")
     private Integer platform_code;
 
     @Column(name = "station_date")
+    @CsvBindByName(column = "station_date")
     @DateTimeFormat(pattern = DATE_FORMAT)
     private Date station_date;
 
     @Column(name = "latitude")
+    @CsvBindByName(column = "latitude")
     private Double latitude;
 
     @Column(name = "longitude")
+    @CsvBindByName(column = "longitude")
     private Double longitude;
 
     @Column(name = "measure_type")
+    @CsvBindByName(column = "measure_type")
     private Integer measure_type;
 
     @Column(name = "parameter_code")
+    @CsvBindByName(column = "parameter_code")
     private Integer parameter_code;
 
     @Column(name = "parameter_value")
+    @CsvBindByName(column = "parameter_value")
     private Double parameter_value;
 
     @Column(name = "parameter_qc")
+    @CsvBindByName(column = "parameter_qc")
     private Integer parameter_qc;
 
     @Column(name = "z_code")
+    @CsvBindByName(column = "z_code")
     private Integer z_code;
 
     @Column(name = "z_value")
+    @CsvBindByName(column = "z_value")
     private Double z_value;
 
     @Column(name = "z_qc")
+    @CsvBindByName(column = "z_qc")
     private Integer z_qc;
 
     @Column(name = "z_level")
+    @CsvBindByName(column = "z_level")
     private Double z_level;
 
     public Integer getId() {
