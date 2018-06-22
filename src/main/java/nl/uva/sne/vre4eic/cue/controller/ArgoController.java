@@ -39,7 +39,7 @@ public class ArgoController {
     @Autowired
     private ArgoService service;
 
-    @RequestMapping(value = "/get", produces = "text/csv", method = RequestMethod.GET)
+    @RequestMapping(value = "/get", method = RequestMethod.GET)
     public void getArgoData(@RequestParam(required = false) Map<String, String> requestParams,
             HttpServletResponse response) {
         try {
