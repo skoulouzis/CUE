@@ -8,9 +8,7 @@ package nl.uva.sne.vre4eic.cue.util;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import nl.uva.sne.vre4eic.cue.model.Argo;
-import static nl.uva.sne.vre4eic.cue.util.Consts.DATE_FORMAT;
 
 /**
  *

@@ -39,6 +39,7 @@ public class ArgoController {
     @Autowired
     private ArgoService service;
 
+//    http://localhost:8084/cue/rest/argo/get
     @RequestMapping(value = "/get", method = RequestMethod.GET)
     public void getArgoData(@RequestParam(required = false) Map<String, String> requestParams,
             HttpServletResponse response) {
