@@ -8,7 +8,10 @@ package nl.uva.sne.vre4eic.cue.util;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import nl.uva.sne.vre4eic.cue.model.Argo;
+import static nl.uva.sne.vre4eic.cue.util.Consts.DATE_FORMAT;
 
 /**
  *
@@ -19,7 +22,10 @@ public class ArgoFactory {
     public static Argo build(ResultSet result) throws SQLException {
         Argo p = new Argo();
         p.setId(result.getInt("id"));
-        p.setStation_date(new Date(result.getTimestamp("station_date").getTime()) );
+        DateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
+        Date value = new Date(result.getTimestamp("station_date").getTime());
+        
+        p.setStation_date(formatter.format(value));
         p.setStation_id(result.getInt("station_id"));
         p.setPlatform_code(result.getInt("platform_code"));
         p.setLatitude(result.getDouble("latitude"));

@@ -63,14 +63,14 @@ public class Argo implements Serializable {
      * @return the station_date
      */
     @DateTimeFormat(pattern = DATE_FORMAT)
-    public Date getStation_date() {
+    public String getStation_date() {
         return station_date;
     }
 
     /**
      * @param station_date the station_date to set
      */
-    public void setStation_date(Date station_date) {
+    public void setStation_date(String station_date) {
         this.station_date = station_date;
     }
 
@@ -216,7 +216,7 @@ public class Argo implements Serializable {
     @Column(name = "station_date")
     @CsvBindByName(column = "station_date")
     @DateTimeFormat(pattern = DATE_FORMAT)
-    private Date station_date;
+    private String station_date;
 
     @Column(name = "latitude")
     @CsvBindByName(column = "latitude")
