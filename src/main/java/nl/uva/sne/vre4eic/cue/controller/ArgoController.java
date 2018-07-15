@@ -40,7 +40,7 @@ public class ArgoController {
     private ArgoService service;
 
 //    http://localhost:8084/cue/rest/argo/get
-    @RequestMapping(value = "/get", method = RequestMethod.GET)
+    @RequestMapping(value = "/get", method = RequestMethod.GET, produces = "text/csv")
     public void getArgoData(@RequestParam(required = false) Map<String, String> requestParams,
             HttpServletResponse response) {
         try {
@@ -82,7 +82,6 @@ public class ArgoController {
         }
     }
 
-    
 //    curl -v -X POST -F "file=@ar_bigdata_199901.csv" localhost:8084/cue/argo/upload
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public @ResponseBody
